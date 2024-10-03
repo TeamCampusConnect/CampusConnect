@@ -11,9 +11,9 @@ import java.util.List;
 @Document(collection = "University")
 public class UniversityEntity {
 
+    @Id
     private ObjectId id;
 
-    @Id
     @Indexed(unique = true)
     @NonNull
     private String email;

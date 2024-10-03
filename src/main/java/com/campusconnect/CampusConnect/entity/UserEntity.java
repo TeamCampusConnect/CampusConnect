@@ -1,19 +1,19 @@
 package com.campusconnect.CampusConnect.entity;
 
+import lombok.Data;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Data
 @Document(collection = "Users")
 public class UserEntity {
 
-
+    @Id
     private ObjectId id;
 
-    @Id
-    @Indexed(unique = true)
     @NonNull
     private String email;
 
@@ -33,7 +33,22 @@ public class UserEntity {
 
     private String currentCompany;
 
-    @NonNull
     private String placementStatement;
 
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userName='" + userName + '\'' +
+                ", nameOfUniversity='" + nameOfUniversity + '\'' +
+                ", universityReg=" + universityReg +
+                ", course='" + course + '\'' +
+                ", Branch='" + Branch + '\'' +
+                ", currentCompany='" + currentCompany + '\'' +
+                ", placementStatement='" + placementStatement + '\'' +
+                '}';
+    }
 }
