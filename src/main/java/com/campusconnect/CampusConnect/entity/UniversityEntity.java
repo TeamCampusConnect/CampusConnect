@@ -31,6 +31,10 @@ public class UniversityEntity {
     @NotNull(message = "university name cannot be empty")
     private String nameOfUniversity;
 
+//  when the user selects the university make this field apply internally it self by the name to id
+    @NotNull
+    private ObjectId universityId;
+
     //  placement officers head name
     private String officerHead;
 

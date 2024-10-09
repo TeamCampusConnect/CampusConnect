@@ -1,5 +1,6 @@
 package com.campusconnect.CampusConnect.entity;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
@@ -20,7 +21,12 @@ public class PostEntity {
     private ObjectId id;
 
     @Indexed
+    @NotNull
     private ObjectId usersId;
+
+    @NotNull
+    @Indexed
+    private ObjectId universityId;
 
     private String title;
     private String content;
