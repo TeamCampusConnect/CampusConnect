@@ -1,7 +1,9 @@
 package com.campusconnect.CampusConnect.entity;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -14,22 +16,27 @@ public class UserEntity {
     @Id
     private ObjectId id;
 
-    @NonNull
+    @NotNull(message = "email cannot be empty")
+    @Email(message = "invalid email format")
+    @Indexed(unique = true)
     private String email;
 
-    private String password;
+    @NotNull(message = "Password cannot be null")
+    @Size(min = 6, message = "Password must be at least 6 characters")
+    private String hashedPassword;
 
-    @NonNull
+    @NotNull(message = "user name cannot be null")
     private String userName;
 
-    @NonNull
+    @NotNull(message = "university name cannot be null")
+    @Indexed
     private String nameOfUniversity;
 
     private long universityReg;
 
     private String course;
 
-    private String Branch;
+    private String branch;
 
     private String currentCompany;
 
@@ -41,12 +48,12 @@ public class UserEntity {
         return "UserEntity{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + hashedPassword + '\'' +
                 ", userName='" + userName + '\'' +
                 ", nameOfUniversity='" + nameOfUniversity + '\'' +
                 ", universityReg=" + universityReg +
                 ", course='" + course + '\'' +
-                ", Branch='" + Branch + '\'' +
+                ", Branch='" + branch + '\'' +
                 ", currentCompany='" + currentCompany + '\'' +
                 ", placementStatement='" + placementStatement + '\'' +
                 '}';

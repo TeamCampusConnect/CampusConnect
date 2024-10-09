@@ -3,7 +3,10 @@ package com.campusconnect.CampusConnect.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -16,9 +19,16 @@ public class PostEntity {
     @Id
     private ObjectId id;
 
+    @Indexed
     private ObjectId usersId;
 
     private String title;
     private String content;
-    private Date timeStamp;
+
+    @CreatedDate
+    private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
+
 }
