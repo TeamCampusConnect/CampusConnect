@@ -1,5 +1,6 @@
 package com.campusconnect.CampusConnect.repositories;
 
+import com.campusconnect.CampusConnect.dto.UserDTO;
 import com.campusconnect.CampusConnect.entity.UserEntity;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;

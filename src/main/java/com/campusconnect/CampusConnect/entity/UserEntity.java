@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -11,6 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document(collection = "Users")
+@Getter
+@Setter
 public class UserEntity {
 
     @Id
@@ -23,7 +27,7 @@ public class UserEntity {
 
     @NotNull(message = "Password cannot be null")
     @Size(min = 6, message = "Password must be at least 6 characters")
-    private String hashedPassword;
+    private String password;
 
     @NotNull(message = "user name cannot be null")
     private String userName;
@@ -48,7 +52,7 @@ public class UserEntity {
         return "UserEntity{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", password='" + hashedPassword + '\'' +
+                ", password='" + password + '\'' +
                 ", userName='" + userName + '\'' +
                 ", nameOfUniversity='" + nameOfUniversity + '\'' +
                 ", universityReg=" + universityReg +
