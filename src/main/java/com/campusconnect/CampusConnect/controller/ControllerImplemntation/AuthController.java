@@ -1,4 +1,4 @@
-package com.campusconnect.CampusConnect.controller;
+package com.campusconnect.CampusConnect.controller.ControllerImplemntation;
 
 import com.campusconnect.CampusConnect.dto.LoginDTO;
 import com.campusconnect.CampusConnect.dto.UniversityDTO;
@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+
+    private final AuthService authService;
+   public AuthController(AuthService authService){
+        this.authService = authService;
+    }
 
     // User signup
     @PostMapping("/user/signup")

@@ -8,7 +8,6 @@ import com.campusconnect.CampusConnect.entity.UserEntity;
 import com.campusconnect.CampusConnect.repositories.UniversityRepository;
 import com.campusconnect.CampusConnect.repositories.UserRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,11 +15,17 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
-    @Autowired
-    private UserRepository userRepository;
+        private final UserRepository userRepository;
+        private final UniversityRepository universityRepository;
 
-    @Autowired
-    private UniversityRepository universityRepository;
+        AuthService(UserRepository userRepository , UniversityRepository universityRepository){
+            this.userRepository = userRepository;
+            this.universityRepository = universityRepository;
+        }
+
+
+
+
     public void userSignUp(@Valid UserDTO userData) {
         UserEntity userEntity = mapToEntity(userData);
         userRepository.save(userEntity);

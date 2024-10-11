@@ -11,10 +11,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
+
 @Document(collection = "Users")
-@Getter
-@Setter
+@Data
 public class UserEntity {
 
     @Id

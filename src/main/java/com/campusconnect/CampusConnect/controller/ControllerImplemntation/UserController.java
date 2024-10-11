@@ -1,4 +1,4 @@
-package com.campusconnect.CampusConnect.controller;
+package com.campusconnect.CampusConnect.controller.ControllerImplemntation;
 
 import com.campusconnect.CampusConnect.entity.UserEntity;
 import com.campusconnect.CampusConnect.service.UserService;

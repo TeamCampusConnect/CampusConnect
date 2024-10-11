@@ -3,6 +3,7 @@ package com.campusconnect.CampusConnect.entity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -14,8 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Document(collection = "University")
-@Getter
-@Setter
+@Data
 public class UniversityEntity {
 
     @Id
