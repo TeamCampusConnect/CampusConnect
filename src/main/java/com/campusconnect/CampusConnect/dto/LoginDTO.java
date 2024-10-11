@@ -3,12 +3,14 @@ package com.campusconnect.CampusConnect.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
-@Data
-public class UserDTO implements CommonDTO {
+@Getter
+@Setter
+public class LoginDTO {
 
     @Id
     private ObjectId id;
@@ -21,20 +23,6 @@ public class UserDTO implements CommonDTO {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
-    @NotNull(message = "User name cannot be null")
-    private String userName;
-
-    @NotNull(message = "University name cannot be null")
-    private String nameOfUniversity;
-
-    private long universityReg;
-
-    private String course;
-
-    private String branch;
-
-    private String currentCompany;
-
-    private String placementStatement;
 
 }
+

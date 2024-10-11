@@ -1,18 +1,17 @@
 package com.campusconnect.CampusConnect.service;
-import com.campusconnect.CampusConnect.dto.CommonDTO;
+
+import com.campusconnect.CampusConnect.dto.LoginDTO;
 import com.campusconnect.CampusConnect.dto.UniversityDTO;
 import com.campusconnect.CampusConnect.dto.UserDTO;
 import com.campusconnect.CampusConnect.entity.UniversityEntity;
 import com.campusconnect.CampusConnect.entity.UserEntity;
-import com.campusconnect.CampusConnect.repositories.CompanyRepository;
 import com.campusconnect.CampusConnect.repositories.UniversityRepository;
 import com.campusconnect.CampusConnect.repositories.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.PrivilegedExceptionAction;
-
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -22,59 +21,68 @@ public class AuthService {
 
     @Autowired
     private UniversityRepository universityRepository;
+    public void userSignUp(@Valid UserDTO userData) {
+        UserEntity userEntity = mapToEntity(userData);
+        userRepository.save(userEntity);
+    }
+    public boolean userLogin(@Valid LoginDTO userData) {
+        Optional<UserEntity> user = userRepository.findByEmail(userData.getEmail());
 
-    public void userSignUp(@Valid UserDTO userData){
-        try{
-            UserEntity userEntity = (UserEntity) mapToEntity(userData);
-            userRepository.save(userEntity);
+        if (user.isEmpty()) {
+            return false;
         }
-        catch (Exception e){
-            System.out.println(e);
+
+        if (!user.get().getPassword().equals(userData.getPassword())) {
+            return false;
         }
+
+        return true;
     }
 
-    public void universitySignUp(@Valid UniversityDTO universityData) {
-        try {
-            UniversityEntity universityEntity = (UniversityEntity) mapToEntity(universityData);
-            universityRepository.save(universityEntity);
-        } catch (Exception e) {
-            System.out.println(e);
+    // University login
+    public boolean universityLogin(@Valid LoginDTO universityData) {
+        Optional<UniversityEntity> university = universityRepository.findByEmail(universityData.getEmail());
+
+        if (university.isEmpty()) {
+            return false;
         }
+
+        if (!university.get().getPassword().equals(universityData.getPassword())) {
+            return false;
+        }
+
+        return true;
     }
 
-    private <T extends CommonDTO> Object mapToEntity(T dto){
-        if(dto instanceof UserDTO userDTO){
-            UserEntity userEntity = new UserEntity();
-            userEntity.setEmail(userDTO.getEmail());
-            userEntity.setPassword(userDTO.getPassword());
-            userEntity.setUserName(userDTO.getUserName());
-            userEntity.setNameOfUniversity(userDTO.getNameOfUniversity());
-            userEntity.setUniversityReg(userDTO.getUniversityReg());
-            userEntity.setCourse(userDTO.getCourse());
-            userEntity.setBranch(userDTO.getBranch());
-            userEntity.setCurrentCompany(userDTO.getCurrentCompany());
-            userEntity.setPlacementStatement(userDTO.getPlacementStatement());
-            return userEntity;
-        }
-        else if(dto instanceof UniversityEntity universityDTO){
-            UniversityEntity universityEntity = new UniversityEntity();
-            universityEntity.setEmail(universityDTO.getEmail());
-            universityEntity.setPassword(universityDTO.getPassword());
-            universityEntity.setNameOfUniversity(universityDTO.getNameOfUniversity());
-            universityEntity.setUniversityId(universityDTO.getUniversityId());
-            universityEntity.setOfficerHead(universityDTO.getOfficerHead());
-            universityEntity.setEstablishedIn(universityDTO.getEstablishedIn());
-            universityEntity.setNoOfCompanyVisit(universityDTO.getNoOfCompanyVisit());
-            universityEntity.setNirfRanking(universityDTO.getNirfRanking());
-            universityEntity.setLocationOfUniversity(universityDTO.getLocationOfUniversity());
-            universityEntity.setAllStudents(universityDTO.getAllStudents());
-            universityEntity.setCompanyList(universityDTO.getCompanyList());
-            return universityEntity;
-        }
-        throw new IllegalArgumentException("Unsupported DTO type");
+     public void universitySignUp(@Valid UniversityDTO universityData) {
+        UniversityEntity universityEntity = mapToEntity(universityData);
+        universityRepository.save(universityEntity);
     }
 
+     private UserEntity mapToEntity(UserDTO dto) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(dto.getEmail());
+        userEntity.setPassword(dto.getPassword());
+        userEntity.setUserName(dto.getUserName());
+        userEntity.setNameOfUniversity(dto.getNameOfUniversity());
+        userEntity.setUniversityReg(dto.getUniversityReg());
+        userEntity.setCourse(dto.getCourse());
+        userEntity.setBranch(dto.getBranch());
+        userEntity.setCurrentCompany(dto.getCurrentCompany());
+        userEntity.setPlacementStatement(dto.getPlacementStatement());
+        return userEntity;
+    }
 
-
-
+    private UniversityEntity mapToEntity(UniversityDTO dto) {
+        UniversityEntity universityEntity = new UniversityEntity();
+        universityEntity.setEmail(dto.getEmail());
+        universityEntity.setPassword(dto.getPassword());
+        universityEntity.setNameOfUniversity(dto.getNameOfUniversity());
+        universityEntity.setOfficerHead(dto.getOfficerHead());
+        universityEntity.setEstablishedIn(dto.getEstablishedIn());
+        universityEntity.setNoOfCompanyVisit(dto.getNoOfCompanyVisit());
+        universityEntity.setNirfRanking(dto.getNirfRanking());
+        universityEntity.setLocationOfUniversity(dto.getLocationOfUniversity());
+        return universityEntity;
+    }
 }
