@@ -1,4 +1,4 @@
-package com.campusconnect.CampusConnect.controller.ControllerImplemntation;
+package com.campusconnect.CampusConnect.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/check")
 public class HealthCheck {
 
-    @GetMapping("/")
-    public String getHealthStatus(){
-        return "Status is Ok";
+    @GetMapping
+    public String healthCheck(){
+        return "Status: Working fine";
     }
+
 
 }

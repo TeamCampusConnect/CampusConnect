@@ -1,9 +1,7 @@
 package com.campusconnect.CampusConnect.controller;
 
-import com.campusconnect.CampusConnect.entity.UserEntity;
-import com.campusconnect.CampusConnect.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/user")

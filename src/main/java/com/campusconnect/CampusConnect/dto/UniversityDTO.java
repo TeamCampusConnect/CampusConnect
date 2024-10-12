@@ -28,7 +28,6 @@ public class UniversityDTO implements CommonDTO {
     @NotNull(message = "university name cannot be empty")
     private String nameOfUniversity;
 
-    private ObjectId universityId;
 
     private String officerHead;
 
