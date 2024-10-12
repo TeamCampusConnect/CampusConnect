@@ -27,6 +27,9 @@ public class UserDTO implements CommonDTO {
     @NotNull(message = "University name cannot be null")
     private String nameOfUniversity;
 
+    @NotNull
+    private ObjectId universityId;
+
     private long universityReg;
 
     private String course;

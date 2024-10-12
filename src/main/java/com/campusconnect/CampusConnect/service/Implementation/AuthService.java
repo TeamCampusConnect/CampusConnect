@@ -1,4 +1,4 @@
-package com.campusconnect.CampusConnect.service;
+package com.campusconnect.CampusConnect.service.Implementation;
 
 import com.campusconnect.CampusConnect.dto.LoginDTO;
 import com.campusconnect.CampusConnect.dto.UniversityDTO;
@@ -8,40 +8,61 @@ import com.campusconnect.CampusConnect.entity.UserEntity;
 import com.campusconnect.CampusConnect.repositories.UniversityRepository;
 import com.campusconnect.CampusConnect.repositories.UserRepository;
 import jakarta.validation.Valid;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AuthService {
 
-        private final UserRepository userRepository;
-        private final UniversityRepository universityRepository;
+    private final UserRepository userRepository;
+    private final UniversityRepository universityRepository;
 
-        AuthService(UserRepository userRepository , UniversityRepository universityRepository){
-            this.userRepository = userRepository;
-            this.universityRepository = universityRepository;
-        }
-
-
-
+    AuthService(UserRepository userRepository, UniversityRepository universityRepository) {
+        this.userRepository = userRepository;
+        this.universityRepository = universityRepository;
+    }
 
     public void userSignUp(@Valid UserDTO userData) {
+        // Map UserDTO to UserEntity
         UserEntity userEntity = mapToEntity(userData);
-        userRepository.save(userEntity);
+
+        // Fetch the university by the provided ID
+        Optional<UniversityEntity> universityOptional = universityRepository.findById(userData.getUniversityId());
+
+        // Check if university is present
+        if (universityOptional.isPresent()) {
+            UniversityEntity university = universityOptional.get();
+
+            // Add the student's ID to the university's student list
+            List<ObjectId> allStudents = university.getAllStudents();
+            if (allStudents != null) {
+                allStudents.add(userEntity.getId()); // Add the user ID to the list
+            } else {
+                // Initialize the list if it's null
+                allStudents = new ArrayList<>();
+                allStudents.add(userEntity.getId());
+                university.setAllStudents(allStudents);
+            }
+
+            // Save the user and update the university entity
+            userRepository.save(userEntity);
+            universityRepository.save(university); // Save the updated university entity with the new student
+        } else {
+            throw new RuntimeException("University not found with id: " + userData.getUniversityId());
+        }
     }
+
     public boolean userLogin(@Valid LoginDTO userData) {
         Optional<UserEntity> user = userRepository.findByEmail(userData.getEmail());
 
         if (user.isEmpty()) {
             return false;
         }
-
-        if (!user.get().getPassword().equals(userData.getPassword())) {
-            return false;
-        }
-
-        return true;
+        return user.get().getPassword().equals(userData.getPassword());
     }
 
     // University login
@@ -52,19 +73,15 @@ public class AuthService {
             return false;
         }
 
-        if (!university.get().getPassword().equals(universityData.getPassword())) {
-            return false;
-        }
-
-        return true;
+        return university.get().getPassword().equals(universityData.getPassword());
     }
 
-     public void universitySignUp(@Valid UniversityDTO universityData) {
+    public void universitySignUp(@Valid UniversityDTO universityData) {
         UniversityEntity universityEntity = mapToEntity(universityData);
         universityRepository.save(universityEntity);
     }
 
-     private UserEntity mapToEntity(UserDTO dto) {
+    private UserEntity mapToEntity(UserDTO dto) {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(dto.getEmail());
         userEntity.setPassword(dto.getPassword());

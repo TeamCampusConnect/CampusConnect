@@ -13,17 +13,10 @@ import java.util.List;
 @Document(collection =  "Company")
 @Data
 public class CompanyEntity {
-
     @Id
     private ObjectId id;
-
-//    Company name
     @NonNull
     @Indexed
     private String companyName;
-
     private List<UniversityStudentMapping> campusToStudentsMap;
-
-
-
 }
