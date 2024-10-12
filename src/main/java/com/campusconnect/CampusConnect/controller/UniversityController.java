@@ -1,10 +1,7 @@
-package com.campusconnect.CampusConnect.controller.ControllerImplemntation;
+package com.campusconnect.CampusConnect.controller;
 
 import com.campusconnect.CampusConnect.dto.UniversityNameListDTO;
-import com.campusconnect.CampusConnect.entity.UniversityEntity;
-import com.campusconnect.CampusConnect.service.Implementation.UniversityService;
-import com.campusconnect.CampusConnect.service.UniversityServiceInterface;
-import org.springframework.http.HttpStatus;
+import com.campusconnect.CampusConnect.service.UniversityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

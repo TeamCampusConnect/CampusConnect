@@ -1,4 +1,4 @@
-package com.campusconnect.CampusConnect.service.Implementation;
+package com.campusconnect.CampusConnect.service;
 
 import com.campusconnect.CampusConnect.dto.LoginDTO;
 import com.campusconnect.CampusConnect.dto.UniversityDTO;

@@ -3,7 +3,7 @@ package com.campusconnect.CampusConnect.controller;
 import com.campusconnect.CampusConnect.dto.LoginDTO;
 import com.campusconnect.CampusConnect.dto.UniversityDTO;
 import com.campusconnect.CampusConnect.dto.UserDTO;
-import com.campusconnect.CampusConnect.service.Implementation.AuthService;
+import com.campusconnect.CampusConnect.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

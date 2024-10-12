@@ -1,4 +1,4 @@
-package com.campusconnect.CampusConnect.service.Implementation;
+package com.campusconnect.CampusConnect.service;
 import org.springframework.stereotype.Service;
 
 @Service
