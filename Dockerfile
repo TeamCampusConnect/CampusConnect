@@ -1,5 +1,5 @@
 # Stage 1: Build the application with Maven
-FROM maven:3.9.5-openjdk-21 AS build
+FROM maven:3.9.5-openjdk-17 AS build
 
 # Set working directory
 WORKDIR /app
@@ -11,7 +11,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run the application with a slim JDK image
-FROM openjdk:21-jdk-slim
+FROM openjdk:17-jdk-slim
 
 # Set working directory in the new stage
 WORKDIR /app
