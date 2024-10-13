@@ -10,8 +10,8 @@ import org.springframework.data.annotation.Id;
 @Data
 public class UserDTO implements CommonDTO {
 
-    @Id
-    private ObjectId id;
+    @NotNull
+    private String id;
 
     @NotNull(message = "Email cannot be empty")
     @Email(message = "Invalid email format")

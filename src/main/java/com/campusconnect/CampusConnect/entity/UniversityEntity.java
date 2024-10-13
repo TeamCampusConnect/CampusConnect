@@ -17,7 +17,7 @@ import java.util.List;
 public class UniversityEntity {
 
     @Id
-    private ObjectId _id;
+    private ObjectId id;
 
     @Indexed(unique = true)
     @NotNull(message = "Email cannot be empty")
