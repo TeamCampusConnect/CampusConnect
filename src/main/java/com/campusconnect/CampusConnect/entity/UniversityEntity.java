@@ -7,6 +7,7 @@ import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class UniversityEntity {
 
     @Id
-    private ObjectId id;
+    private ObjectId _id;
 
     @Indexed(unique = true)
     @NotNull(message = "Email cannot be empty")
@@ -34,6 +35,7 @@ public class UniversityEntity {
 
 //  when the user selects the university make this field apply internally it self by the name to id
     @NotNull
+    @DBRef
     private ObjectId universityId;
 
     //  placement officers head name
@@ -52,10 +54,12 @@ public class UniversityEntity {
     private String locationOfUniversity;
 
     // list of students registered in that university name.
-    private List<ObjectId> allStudents;
+    @DBRef
+    private List<UserEntity> allStudents;
 
     //  List of the company's that comes to the campus for hiring.
-    private List<ObjectId> companyList;
+    @DBRef
+    private List<CompanyEntity> companyList;
 
 
 }

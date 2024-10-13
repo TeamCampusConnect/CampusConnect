@@ -38,13 +38,13 @@ public class AuthService {
             UniversityEntity university = universityOptional.get();
 
             // Add the student's ID to the university's student list
-            List<ObjectId> allStudents = university.getAllStudents();
+            List<UserEntity> allStudents = university.getAllStudents();
             if (allStudents != null) {
-                allStudents.add(userEntity.getId()); // Add the user ID to the list
+                allStudents.add(userEntity);
             } else {
                 // Initialize the list if it's null
                 allStudents = new ArrayList<>();
-                allStudents.add(userEntity.getId());
+                allStudents.add(userEntity);
                 university.setAllStudents(allStudents);
             }
 

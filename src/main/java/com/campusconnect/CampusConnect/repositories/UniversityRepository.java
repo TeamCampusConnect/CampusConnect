@@ -14,8 +14,8 @@ import java.util.Optional;
 public interface UniversityRepository extends MongoRepository<UniversityEntity, ObjectId> {
     Optional<UniversityEntity> findByEmail(String email);
 
-    @Query(value = "{}", fields = "{ 'nameOfUniversity' : 1 }") // Adjust the field names accordingly
-
+    @Query(value = "{}", fields = "{ '_id' : 1 , 'nameOfUniversity' : 1 }")
     List<UniversityNameListDTO> findAllNamesOfUniversity();
+
 
 }

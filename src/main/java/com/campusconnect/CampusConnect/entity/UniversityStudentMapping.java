@@ -1,6 +1,7 @@
 package com.campusconnect.CampusConnect.entity;
 import lombok.Data;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -9,5 +10,6 @@ import java.util.List;
 @Data
 public class UniversityStudentMapping {
     private ObjectId universityId;
-    private List<ObjectId> studentIds;
+    @DBRef
+    private List<UserEntity> studentIds;
 }

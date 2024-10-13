@@ -9,10 +9,10 @@
     @Data
     public class UniversityNameListDTO {
 
-        @Id
-        private ObjectId id;
 
-        @Indexed
+        @NotNull
+        private String _id;
+
         @NotNull(message = "university name cannot be empty")
         private String nameOfUniversity;
 
