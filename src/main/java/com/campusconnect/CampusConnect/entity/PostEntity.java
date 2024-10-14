@@ -27,6 +27,8 @@ public class PostEntity {
     private String title;
     private String content;
 
+    private String imageUri;
+
     @CreatedDate
     private Date createdAt;
 
