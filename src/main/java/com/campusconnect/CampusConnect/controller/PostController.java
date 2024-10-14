@@ -4,10 +4,8 @@ import com.campusconnect.CampusConnect.dto.PostDTO;
 import com.campusconnect.CampusConnect.entity.PostEntity;
 import com.campusconnect.CampusConnect.service.PostService;
 import jakarta.validation.Valid;
-import javafx.geometry.Pos;
-import org.bson.types.ObjectId;
-import org.springframework.http.HttpCookie;
-import org.springframework.http.HttpStatus;
+ import org.bson.types.ObjectId;
+ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
