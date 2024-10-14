@@ -10,6 +10,7 @@ import com.campusconnect.CampusConnect.repositories.UserRepository;
 import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class AuthService {
         this.universityRepository = universityRepository;
     }
 
+    @Transactional
     public void userSignUp(@Valid UserDTO userData) {
         // Map UserDTO to UserEntity
         UserEntity userEntity = mapToEntity(userData);
@@ -76,6 +78,7 @@ public class AuthService {
         return university.get().getPassword().equals(universityData.getPassword());
     }
 
+    @Transactional
     public void universitySignUp(@Valid UniversityDTO universityData) {
         UniversityEntity universityEntity = mapToEntity(universityData);
         universityRepository.save(universityEntity);

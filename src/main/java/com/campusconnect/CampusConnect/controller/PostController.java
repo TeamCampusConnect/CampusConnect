@@ -37,7 +37,7 @@ public class PostController {
     }
 
 //    get a post by id
-    @PostMapping("/{id}")
+    @PostMapping("/get/{id}")
     public ResponseEntity<?> getPostById(@PathVariable ObjectId id){
         try {
           Optional<PostEntity> post = Optional.ofNullable(postService.getPostById(id));
@@ -54,7 +54,7 @@ public class PostController {
     }
 
 //  Updating a post
-    @PutMapping("/{postId}")
+    @PutMapping("/update/{postId}")
     public ResponseEntity<?> updatePost(@PathVariable ObjectId postId , @Valid PostDTO postData){
         try{
             postService.updatePost(postId,postData);
@@ -67,7 +67,7 @@ public class PostController {
 
 
 //    deleting a post
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/remove/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable ObjectId postId){
         try{
             postService.deletePost(postId);
@@ -77,9 +77,5 @@ public class PostController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
-
-
 
 }

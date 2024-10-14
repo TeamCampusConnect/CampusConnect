@@ -7,9 +7,9 @@ import com.campusconnect.CampusConnect.repositories.PostRepository;
 import com.campusconnect.CampusConnect.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +24,7 @@ public class PostService {
     }
 
     // Creating post
+    @Transactional
     public void createPost(ObjectId userId, PostDTO postData) {
         try {
             Optional<UserEntity> userOpt = userRepository.findById(userId);
@@ -41,8 +42,8 @@ public class PostService {
                 postRepository.save(post);
 
                 // Add post to user's posts and update user
-                user.getPosts().add(post);  // Using user.getPosts()
-                userRepository.save(user);  // Save the user entity after adding the post
+                user.getPosts().add(post);
+                userRepository.save(user);
             } else {
                 throw new RuntimeException("User not found.");
             }
@@ -62,6 +63,7 @@ public class PostService {
     }
 
     // Updating a post by post ID
+    @Transactional
     public void updatePost(ObjectId postId, PostDTO updatedPostData) {
         Optional<PostEntity> postOpt = postRepository.findById(postId);
         if (postOpt.isPresent()) {
@@ -80,6 +82,7 @@ public class PostService {
     }
 
     // Deleting a post by post ID
+    @Transactional
     public void deletePost(ObjectId postId) {
         try {
             Optional<PostEntity> postOpt = postRepository.findById(postId);
@@ -93,8 +96,8 @@ public class PostService {
                 Optional<UserEntity> userOpt = userRepository.findById(post.getUsersId());
                 if (userOpt.isPresent()) {
                     UserEntity user = userOpt.get();
-                    user.getPosts().remove(post);  // Remove post reference
-                    userRepository.save(user);     // Save the updated user
+                    user.getPosts().remove(post);
+                    userRepository.save(user);
                 }
             } else {
                 throw new RuntimeException("Post not found.");
