@@ -1,5 +1,6 @@
 package com.campusconnect.CampusConnect.controller;
 
+import ch.qos.logback.core.encoder.EchoEncoder;
 import com.campusconnect.CampusConnect.dto.LoginDTO;
 import com.campusconnect.CampusConnect.dto.UniversityDTO;
 import com.campusconnect.CampusConnect.dto.UserDTO;
@@ -51,8 +52,12 @@ public class AuthController {
     // University signup
     @PostMapping("/university/signup")
     public ResponseEntity<?> universitySignUp(@Valid @RequestBody UniversityDTO universityData) {
-        authService.universitySignUp(universityData);
-        return ResponseEntity.status(201).body("University successfully registered");
+       try{
+           authService.universitySignUp(universityData);
+           return ResponseEntity.status(201).body("University successfully registered");
+       }catch (Exception e){
+           return ResponseEntity.status(501).body("Internal server error");
+       }
     }
 }
 

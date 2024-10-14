@@ -15,9 +15,6 @@ import java.util.List;
 public class UniversityDTO implements CommonDTO {
 
 
-    @NotNull
-    private String id;
-
     @NotNull(message = "Email cannot be empty")
     @Email(message = "Invalid Email format")
     private String email;
