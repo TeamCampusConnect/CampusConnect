@@ -12,8 +12,6 @@ import org.springframework.data.annotation.Id;
 @Setter
 public class LoginDTO {
 
-    @NotNull
-    private String id;
 
     @NotNull(message = "Email cannot be empty")
     @Email(message = "Invalid email format")

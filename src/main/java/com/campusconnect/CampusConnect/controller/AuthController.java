@@ -28,7 +28,7 @@ public class AuthController {
 
     // User login
     @PostMapping("/user/login")
-    public ResponseEntity<String> userLogin(@Valid @RequestBody LoginDTO userData) {
+    public ResponseEntity<?> userLogin(@Valid @RequestBody LoginDTO userData) {
         boolean isLoggedIn = authService.userLogin(userData);
         if (isLoggedIn) {
             return ResponseEntity.status(202).body("User successfully logged in");
@@ -39,7 +39,7 @@ public class AuthController {
 
     // University login
     @PostMapping("/university/login")
-    public ResponseEntity<String> universityLogin(@Valid @RequestBody LoginDTO universityData) {
+    public ResponseEntity<?> universityLogin(@Valid @RequestBody LoginDTO universityData) {
         boolean isLoggedIn = authService.universityLogin(universityData);
         if (isLoggedIn) {
             return ResponseEntity.status(202).body("University successfully logged in");
@@ -50,8 +50,10 @@ public class AuthController {
 
     // University signup
     @PostMapping("/university/signup")
-    public ResponseEntity<String> universitySignUp(@Valid @RequestBody UniversityDTO universityData) {
+    public ResponseEntity<?> universitySignUp(@Valid @RequestBody UniversityDTO universityData) {
         authService.universitySignUp(universityData);
         return ResponseEntity.status(201).body("University successfully registered");
     }
 }
+
+
