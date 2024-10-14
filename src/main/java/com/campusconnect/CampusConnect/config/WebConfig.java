@@ -16,7 +16,7 @@ public class WebConfig {
         return new WebMvcConfigurer(){
             public void addCorsMappings(CorsRegistry registry){
                registry.addMapping("/**")
-                       .allowedOrigins("https://campusconnect-0o3k.onrender.com")
+                       .allowedOrigins("*")
                        .allowedMethods(HttpMethod.GET.name(),
                                         HttpMethod.POST.name(),
                                         HttpMethod.DELETE.name(),
