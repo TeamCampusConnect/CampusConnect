@@ -4,7 +4,6 @@ import com.campusconnect.CampusConnect.dto.UniversityDTO;
 import com.campusconnect.CampusConnect.dto.UserDTO;
 import com.campusconnect.CampusConnect.service.AuthService;
 import jakarta.validation.Valid;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +21,13 @@ public class AuthController {
     // User signup
     @PostMapping("/user/signup")
     public ResponseEntity<?> userSignUp(@Valid @RequestBody UserDTO userData) {
-        authService.userSignUp(userData);
-        return new ResponseEntity<>(userData.getUserName() , HttpStatus.CREATED);
+       try{
+           authService.userSignUp(userData);
+           return new ResponseEntity<>(userData.getUserName() , HttpStatus.CREATED);
+       }
+       catch (Exception e){
+           return new ResponseEntity<>(e.getMessage() , HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 
     // User login

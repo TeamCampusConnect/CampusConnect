@@ -9,8 +9,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.Date;
-import java.util.List;
+
+import java.util.*;
 
 @Document(collection = "University")
 @Data
@@ -55,11 +55,17 @@ public class UniversityEntity {
 
     // list of students registered in that university name.
     @DBRef
-    private List<UserEntity> allStudents;
+    private List<UserEntity> allStudents = new ArrayList<>();
 
     //  List of the company's that comes to the campus for hiring.
     @DBRef
-    private List<CompanyEntity> companyList;
+    private Set<CompanyEntity> companyList =  new HashSet<>();
+
+
+    @DBRef
+    private List<PostEntity> universityRelatedPosts = new ArrayList<>();
 
 
 }
+
+

@@ -2,8 +2,10 @@ package com.campusconnect.CampusConnect.service;
 
 import com.campusconnect.CampusConnect.dto.PostDTO;
 import com.campusconnect.CampusConnect.entity.PostEntity;
+import com.campusconnect.CampusConnect.entity.UniversityEntity;
 import com.campusconnect.CampusConnect.entity.UserEntity;
 import com.campusconnect.CampusConnect.repositories.PostRepository;
+import com.campusconnect.CampusConnect.repositories.UniversityRepository;
 import com.campusconnect.CampusConnect.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,12 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-    public PostService(UserRepository userRepository, PostRepository postRepository) {
+    private final UniversityRepository universityRepository;
+
+    public PostService(UserRepository userRepository, PostRepository postRepository , UniversityRepository universityRepository) {
         this.userRepository = userRepository;
         this.postRepository = postRepository;
+        this.universityRepository=universityRepository;
     }
 
     // Creating post
@@ -37,6 +42,17 @@ public class PostService {
                 // Set references
                 post.setUsersId(userId);
                 post.setUniversityId(user.getUniversityId());
+
+                 Optional<UniversityEntity> universityEntityOptional = universityRepository.findById(user.getUniversityId());
+
+                 if(universityEntityOptional.isPresent()){
+                     UniversityEntity university = universityEntityOptional.get();
+                     university.getUniversityRelatedPosts().add(post);
+                     universityRepository.save(university);
+                 }
+                 else {
+                     throw new RuntimeException("University not found.");
+                 }
 
                 // Save post
                 postRepository.save(post);
