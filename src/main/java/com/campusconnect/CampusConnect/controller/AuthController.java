@@ -1,11 +1,10 @@
 package com.campusconnect.CampusConnect.controller;
-
-import ch.qos.logback.core.encoder.EchoEncoder;
 import com.campusconnect.CampusConnect.dto.LoginDTO;
 import com.campusconnect.CampusConnect.dto.UniversityDTO;
 import com.campusconnect.CampusConnect.dto.UserDTO;
 import com.campusconnect.CampusConnect.service.AuthService;
 import jakarta.validation.Valid;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ public class AuthController {
     @PostMapping("/user/signup")
     public ResponseEntity<?> userSignUp(@Valid @RequestBody UserDTO userData) {
         authService.userSignUp(userData);
-        return new ResponseEntity<>(userData.getId() , HttpStatus.CREATED);
+        return new ResponseEntity<>(userData.getUserName() , HttpStatus.CREATED);
     }
 
     // User login
