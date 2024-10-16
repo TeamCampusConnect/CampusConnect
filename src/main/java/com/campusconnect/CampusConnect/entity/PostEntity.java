@@ -21,6 +21,12 @@ public class PostEntity {
     private ObjectId usersId;
 
     @NotNull
+    private String userName;
+
+    @NotNull
+    private String email;
+
+    @NotNull
     @Indexed
     private ObjectId universityId;
 

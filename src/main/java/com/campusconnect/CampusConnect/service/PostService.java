@@ -126,6 +126,8 @@ public class PostService {
     // Helper method to map DTO to Entity
     public PostEntity DtoToObjMapping(PostDTO postDTO) {
         PostEntity post = new PostEntity();
+        post.setUserName(postDTO.getUserName());
+        post.setUsersId(postDTO.getUserId());
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
         post.setImageUri(postDTO.getImageUri());

@@ -10,9 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.management.OperatingSystemMXBean;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/university")
@@ -58,21 +58,33 @@ public class UniversityController {
     @PostMapping("/getListOfCompanies/{universityId}")
     public ResponseEntity<?> getAllCompaniesVisited(@PathVariable ObjectId universityId){
         try{
-//            universityService.
-            return new ResponseEntity<>(HttpStatus.FOUND);
+            List<CompanyDTO> companies = universityService.findAllCompaniesVisiting(universityId);
+            return new ResponseEntity<>(companies,HttpStatus.FOUND);
         }
         catch (Exception e){
             return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
         }
     }
 
+    @PostMapping("/addStudent/{universityId}/{companyId}")
+    public ResponseEntity<?> addStudentToCompany(@PathVariable ObjectId universityId , @RequestBody List<ObjectId> userIds , @PathVariable ObjectId companyId){
+        try{
+            universityService.addStudentToCompany(userIds,universityId,companyId);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
 }
 
 // List of functions to be implemented
 
-// 1. Show the list of all the students (DONE)
-// 2. show the list of all the companies visited
+// 1. Show the list of all the students. (DONE)
+// 2. show the list of all the companies visited. (DONE)
 // 3. Adding posts to the community that are visible to all the students of the university
 // 4. Having the admin access that can delete users particular post
-// 5. Uploading the list of students per company
-// 6. Updating/editing own posts and deleting them.
+// 5. Uploading the list of students per company. (DONE)
+// 6. Updating/editing own posts and deleting them. (DONE)

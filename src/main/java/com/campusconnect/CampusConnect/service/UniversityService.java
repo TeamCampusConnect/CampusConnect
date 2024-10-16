@@ -8,6 +8,7 @@ import com.campusconnect.CampusConnect.entity.UniversityEntity;
 import com.campusconnect.CampusConnect.entity.UserEntity;
 import com.campusconnect.CampusConnect.repositories.CompanyRepository;
 import com.campusconnect.CampusConnect.repositories.UniversityRepository;
+import com.campusconnect.CampusConnect.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +19,13 @@ import java.util.stream.Collectors;
 public class UniversityService  {
 
     private final UniversityRepository universityRepository;
-    private final CompanyRepository companyEntity;
-    UniversityService(UniversityRepository universityRepository,CompanyRepository companyEntity){
+    private final CompanyRepository companyRepository;
+
+    private final UserRepository userRepository;
+    UniversityService(UniversityRepository universityRepository,CompanyRepository companyRepository,UserRepository userRepository){
         this.universityRepository = universityRepository;
-        this.companyEntity=companyEntity;
+        this.companyRepository=companyRepository;
+        this.userRepository=userRepository;
     }
 
     public List<UniversityNameListDTO> getAllUniversities() {
@@ -42,12 +46,42 @@ public class UniversityService  {
         if (universityEntityOptional.isPresent()){
             UniversityEntity university = universityEntityOptional.get();
             CompanyEntity companyEntity1 = mapToCompanyEntity(companyDetails);
-            CompanyEntity savedEntity = companyEntity.save(companyEntity1);
+            CompanyEntity savedEntity = companyRepository.save(companyEntity1);
             university.getCompanyList().add(savedEntity);
             companyDetails.setId(savedEntity.getId());
             return companyDetails;
         }
         return null;
+    }
+
+    public List<CompanyDTO> findAllCompaniesVisiting(ObjectId universityId){
+        return universityRepository.findById(universityId)
+                .map(universityEntity -> universityEntity.getCompanyList()
+                        .stream()
+                        .map(this::mapToCompanyDTO)
+                        .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
+    }
+
+    @Transactional
+    public void addStudentToCompany(List<ObjectId> userIds, ObjectId universityId, ObjectId companyId) {
+        universityRepository.findById(universityId).ifPresent(university -> {
+            companyRepository.findById(companyId).ifPresent(company -> {
+                List<UserEntity> selectedStudents = company.getSelectedStudents();
+                List<UserEntity> usersToAdd = userRepository.findAllById(userIds);
+
+                // Add only the users not already in the selectedStudents list
+                Set<ObjectId> selectedStudentIds = selectedStudents.stream()
+                        .map(UserEntity::getId)
+                        .collect(Collectors.toSet());
+
+                usersToAdd.stream()
+                        .filter(user -> !selectedStudentIds.contains(user.getId()))
+                        .forEach(selectedStudents::add);
+
+                companyRepository.save(company); // Save updated company with new students
+            });
+        });
     }
 
     private UserDTO mapToUserDTO(UserEntity userEntity) {
@@ -67,6 +101,14 @@ public class UniversityService  {
         companyEntity1.setCompanyName(companyDetails.getCompanyName());
         companyEntity1.setUniversityId(companyDetails.getUniversityId());
         return companyEntity1;
+    }
+
+    private CompanyDTO mapToCompanyDTO(CompanyEntity companyDetails){
+        CompanyDTO companyDTO = new CompanyDTO();
+        companyDTO.setId(companyDetails.getId());
+        companyDTO.setCompanyName(companyDetails.getCompanyName());
+        companyDTO.setUniversityId(companyDetails.getUniversityId());
+        return companyDTO;
     }
 
 
