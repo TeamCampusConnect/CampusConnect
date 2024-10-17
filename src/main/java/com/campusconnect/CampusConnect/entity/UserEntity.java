@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Generated;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -19,6 +20,7 @@ import java.util.List;
 public class UserEntity {
 
     @Id
+    @Generated
     private ObjectId id;
 
     @NotNull(message = "email cannot be empty")
@@ -37,7 +39,7 @@ public class UserEntity {
     @Indexed
     private String nameOfUniversity;
 
-    @DBRef
+    @NotNull(message = "universityId cannot be null")
     private ObjectId universityId;
 
     private long universityReg;
@@ -53,7 +55,6 @@ public class UserEntity {
     @DBRef
     private List<PostEntity> posts = new ArrayList<>();
 
-
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -62,11 +63,13 @@ public class UserEntity {
                 ", password='" + password + '\'' +
                 ", userName='" + userName + '\'' +
                 ", nameOfUniversity='" + nameOfUniversity + '\'' +
+                ", universityId=" + universityId +
                 ", universityReg=" + universityReg +
                 ", course='" + course + '\'' +
-                ", Branch='" + branch + '\'' +
+                ", branch='" + branch + '\'' +
                 ", currentCompany='" + currentCompany + '\'' +
                 ", placementStatement='" + placementStatement + '\'' +
+                ", posts=" + posts +
                 '}';
     }
 }

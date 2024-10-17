@@ -32,12 +32,12 @@ public class AuthService {
         // Map UserDTO to UserEntity
         UserEntity userEntity = mapToEntity(userData);
 
-        // Fetch the university by the provided ID
+         // Fetch the university by the provided ID
         Optional<UniversityEntity> universityOptional = universityRepository.findById(userData.getUniversityId());
-
         // Check if university is present
         if (universityOptional.isPresent()) {
             UniversityEntity university = universityOptional.get();
+            System.out.println(university.toString());
 
             // Add the student's ID to the university's student list
             List<UserEntity> allStudents = university.getAllStudents();
@@ -51,8 +51,8 @@ public class AuthService {
             }
 
             // Save the user and update the university entity
-            userRepository.save(userEntity);
-            universityRepository.save(university); // Save the updated university entity with the new student
+           userRepository.save(userEntity);
+            universityRepository.save(university);
         } else {
             throw new RuntimeException("University not found with id: " + userData.getUniversityId());
         }
@@ -87,6 +87,7 @@ public class AuthService {
     private UserEntity mapToEntity(UserDTO dto) {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(dto.getEmail());
+        userEntity.setUniversityId(dto.getUniversityId());
         userEntity.setPassword(dto.getPassword());
         userEntity.setUserName(dto.getUserName());
         userEntity.setNameOfUniversity(dto.getNameOfUniversity());

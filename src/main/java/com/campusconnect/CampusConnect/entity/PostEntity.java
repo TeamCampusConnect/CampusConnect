@@ -1,6 +1,7 @@
 package com.campusconnect.CampusConnect.entity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.Generated;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -23,11 +24,9 @@ public class PostEntity {
     @NotNull
     private String userName;
 
-    @NotNull
     private String email;
 
     @NotNull
-    @Indexed
     private ObjectId universityId;
 
     private String title;

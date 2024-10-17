@@ -32,38 +32,54 @@ public class PostService {
     @Transactional
     public void createPost(ObjectId userId, PostDTO postData) {
         try {
+            System.out.println("The user id Is : " + userId);
             Optional<UserEntity> userOpt = userRepository.findById(userId);
             if (userOpt.isPresent()) {
                 UserEntity user = userOpt.get();
-
+                System.out.println("user found" + user.toString());
                 // Convert DTO to Entity
                 PostEntity post = DtoToObjMapping(postData);
+                System.out.println("post created"+post);
 
                 // Set references
                 post.setUsersId(userId);
                 post.setUniversityId(user.getUniversityId());
 
-                 Optional<UniversityEntity> universityEntityOptional = universityRepository.findById(user.getUniversityId());
+                System.out.println("Post universityId is saved and userId is saved to.");
+                System.out.println(post.toString());
+
+                Optional<UniversityEntity> universityEntityOptional = universityRepository.findById(user.getUniversityId());
+
+//                Saving the post.
+                postRepository.save(post);
 
                  if(universityEntityOptional.isPresent()){
+                     System.out.println("University found");
                      UniversityEntity university = universityEntityOptional.get();
+                     System.out.println(university.toString());
                      university.getUniversityRelatedPosts().add(post);
                      universityRepository.save(university);
+                     System.out.println("Updated university");
+                     System.out.println(university.toString());
                  }
                  else {
+                     System.out.println("University not found");
                      throw new RuntimeException("University not found.");
                  }
 
-                // Save post
-                postRepository.save(post);
+                System.out.println("same error occured when saving the posts ");
 
-                // Add post to user's posts and update user
+
+                System.out.println(post.toString());
+
                 user.getPosts().add(post);
                 userRepository.save(user);
             } else {
+                System.out.println("user not found");
                 throw new RuntimeException("User not found.");
             }
         } catch (Exception e) {
+            System.out.println("Some error occured"+e.getMessage());
             throw new RuntimeException("An error occurred while saving the post.", e);
         }
     }
@@ -124,14 +140,17 @@ public class PostService {
     }
 
     // Helper method to map DTO to Entity
-    public PostEntity DtoToObjMapping(PostDTO postDTO) {
+    private PostEntity DtoToObjMapping(PostDTO postDTO) {
         PostEntity post = new PostEntity();
         post.setUserName(postDTO.getUserName());
-        post.setUsersId(postDTO.getUserId());
-        post.setTitle(postDTO.getTitle());
+         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
         post.setImageUri(postDTO.getImageUri());
         post.setCreatedAt(new Date());
         return post;
     }
+
+
+
+
 }
