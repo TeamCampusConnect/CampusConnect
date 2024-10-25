@@ -4,12 +4,12 @@ import com.campusconnect.CampusConnect.dto.PostDTO;
 import com.campusconnect.CampusConnect.entity.PostEntity;
 import com.campusconnect.CampusConnect.service.PostService;
 import jakarta.validation.Valid;
- import org.bson.types.ObjectId;
- import org.springframework.http.HttpStatus;
+import org.bson.types.ObjectId;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/post")
@@ -75,5 +75,6 @@ public class PostController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 
 }

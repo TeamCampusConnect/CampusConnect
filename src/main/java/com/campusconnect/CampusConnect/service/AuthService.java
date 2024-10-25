@@ -8,7 +8,6 @@ import com.campusconnect.CampusConnect.entity.UserEntity;
 import com.campusconnect.CampusConnect.repositories.UniversityRepository;
 import com.campusconnect.CampusConnect.repositories.UserRepository;
 import jakarta.validation.Valid;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +50,7 @@ public class AuthService {
             }
 
             // Save the user and update the university entity
-           userRepository.save(userEntity);
+            userRepository.save(userEntity);
             universityRepository.save(university);
         } else {
             throw new RuntimeException("University not found with id: " + userData.getUniversityId());
