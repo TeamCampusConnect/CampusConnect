@@ -12,11 +12,10 @@ import java.util.List;
 public class CompanyDTO {
 
     private ObjectId id;
+
     @NotNull(message = "Company name cannot be empty")
     private String companyName;
-    @NotNull(message = "university id cannot be empty")
-    private ObjectId universityId;
-    private List<UserEntity> selectedStudents = new ArrayList<>();
+
 
 
 }

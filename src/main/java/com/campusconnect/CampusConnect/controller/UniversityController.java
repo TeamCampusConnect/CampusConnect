@@ -9,7 +9,10 @@ import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/university")
@@ -49,6 +52,7 @@ public class UniversityController {
             return new ResponseEntity<>(savedEntity , HttpStatus.CREATED);
         }
         catch (Exception e){
+            System.out.println(e);
          return new ResponseEntity<>(e.getMessage() , HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -65,16 +69,25 @@ public class UniversityController {
     }
 
     @PostMapping("/addStudent/{universityId}/{companyId}")
-    public ResponseEntity<?> addStudentToCompany(@PathVariable ObjectId universityId , @RequestBody List<ObjectId> userIds , @PathVariable ObjectId companyId){
+    public ResponseEntity<?> addStudentToCompany(@Valid @PathVariable ObjectId universityId , @RequestBody List<ObjectId> userIds , @PathVariable ObjectId companyId){
         try{
             universityService.addStudentToCompany(userIds,universityId,companyId);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-
+    @PostMapping("/getStudentsList/{universityId}/{companyId}")
+    public ResponseEntity<List<UserDTO>> getAllStudentsByCompany(@Valid @PathVariable ObjectId companyId , @Valid @PathVariable ObjectId universityId){
+        try{
+            List<UserDTO> result = universityService.getAllUsersSelectedForCompany(universityId,companyId);
+            return new ResponseEntity<>(result,HttpStatus.FOUND);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>( Collections.emptyList(),HttpStatus.NO_CONTENT);
+        }
+    }
 
 }
 

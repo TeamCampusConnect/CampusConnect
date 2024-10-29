@@ -13,16 +13,13 @@ import java.util.List;
 @Document(collection =  "Company")
 @Data
 public class CompanyEntity {
-//   Company Id
+
     @Id
     private ObjectId id;
-//    Company name
+
     @NotNull(message = "Company name cannot be null")
     @Indexed
     private String companyName;
-
-    @DBRef
-    private ObjectId universityId;
 
     @DBRef
     private List<UserEntity> selectedStudents = new ArrayList<>();
