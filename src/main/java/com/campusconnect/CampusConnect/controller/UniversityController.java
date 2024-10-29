@@ -23,10 +23,11 @@ public class UniversityController {
     @PostMapping("/universityList")
         public ResponseEntity<?> listOfUniversity(){
       try{
+          System.out.println("Hitt");
           List<UniversityNameListDTO> universityList = universityService.getAllUniversities();
           return ResponseEntity.ok(universityList);
       }catch (Exception e){
-          return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+          return  new ResponseEntity<>(e,HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
 

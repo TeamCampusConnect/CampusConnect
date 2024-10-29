@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 
+import java.util.Date;
+
 
 @Data
 @NoArgsConstructor
@@ -25,15 +27,20 @@ public class PostDTO {
 
     private String imageUri;
 
+    private Date createdAt;
 
-    public PostDTO(ObjectId id, ObjectId usersId, String userName, String title, String content, String imageUri) {
+
+    public PostDTO(ObjectId id, ObjectId usersId, String userName, String title, String content, String imageUri, Date createdAt) {
         this.id = id;
         this.userId=usersId;
         this.userName=userName;
         this.title=title;
         this.content=content;
         this.imageUri=imageUri;
+        this.createdAt=createdAt;
     }
+
+
 }
 
 

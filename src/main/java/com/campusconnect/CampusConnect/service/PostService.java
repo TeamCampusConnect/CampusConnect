@@ -11,8 +11,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PostService {
@@ -139,15 +138,42 @@ public class PostService {
         }
     }
 
+//    Get all posts for a university
+//    page: The current page number (1-based index).
+//    pageSize: The number of posts per page.
+public List<PostDTO> getAllPostsForUniversity(ObjectId universityId, int page, int pageSize) {
+    return universityRepository.findById(universityId)
+            .map(university -> university.getUniversityRelatedPosts().stream()
+                    .skip((long) (page - 1) * pageSize)  // Skip posts for previous pages
+                    .limit(pageSize)                    // Limit the results to the page size
+                    .map(this::PostToDto)
+                    .toList())
+            .orElse(Collections.emptyList());
+}
+
+
     // Helper method to map DTO to Entity
     private PostEntity DtoToObjMapping(PostDTO postDTO) {
         PostEntity post = new PostEntity();
         post.setUserName(postDTO.getUserName());
+        post.setUsersId(postDTO.getUserId());
          post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
         post.setImageUri(postDTO.getImageUri());
         post.setCreatedAt(new Date());
         return post;
+    }
+
+    private PostDTO PostToDto(PostEntity post){
+        PostDTO dto = new PostDTO();
+        dto.setId(post.getId());
+        dto.setUserId(post.getUsersId());
+        dto.setImageUri(post.getImageUri());
+        dto.setTitle(post.getTitle());
+        dto.setContent(post.getContent());
+        dto.setUserName(post.getUserName());
+        dto.setCreatedAt(post.getCreatedAt());
+        return dto;
     }
 
 

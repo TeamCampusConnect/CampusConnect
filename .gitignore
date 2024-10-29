@@ -32,6 +32,12 @@ build/
 ### VS Code ###
 .vscode/
 
+
+
 #src/main/resources/application.properties
 
 /target
+
+
+/ssh_keys
+/ssh_keys.pub

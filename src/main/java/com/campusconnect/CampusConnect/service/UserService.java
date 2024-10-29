@@ -37,7 +37,9 @@ public class UserService {
                 postData.getUserName(),
                 postData.getTitle(),
                 postData.getContent(),
-                postData.getImageUri());
+                postData.getImageUri(),
+                postData.getCreatedAt()
+                );
     }
 
 }
