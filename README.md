@@ -1,7 +1,3 @@
-Here’s a `README.md` file that captures the problem statement, solution approach, project explanation, and benefits:
-
----
-
 # Campus Connect
 
 ## Problem Statement
