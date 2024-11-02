@@ -29,6 +29,10 @@ public class PostEntity {
     @NotNull
     private ObjectId universityId;
 
+    CompanyTags postRelatedToCompany;
+
+
+
     private String title;
     private String content;
 
@@ -36,6 +40,7 @@ public class PostEntity {
 
     @CreatedDate
     private Date createdAt;
+
 
     @LastModifiedDate
     private Date updatedAt;
