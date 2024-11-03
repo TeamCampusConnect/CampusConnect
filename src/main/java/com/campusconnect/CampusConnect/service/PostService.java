@@ -1,5 +1,6 @@
 package com.campusconnect.CampusConnect.service;
 
+import com.campusconnect.CampusConnect.DtoConverstion.DtoConverterHelper;
 import com.campusconnect.CampusConnect.dto.PostDTO;
 import com.campusconnect.CampusConnect.entity.PostEntity;
 import com.campusconnect.CampusConnect.entity.UniversityEntity;
@@ -21,10 +22,14 @@ public class PostService {
 
     private final UniversityRepository universityRepository;
 
-    public PostService(UserRepository userRepository, PostRepository postRepository , UniversityRepository universityRepository) {
+    private final DtoConverterHelper dtoConverterHelper;
+
+
+    public PostService(UserRepository userRepository, PostRepository postRepository , UniversityRepository universityRepository ,DtoConverterHelper dtoConverterHelper) {
         this.userRepository = userRepository;
         this.postRepository = postRepository;
         this.universityRepository=universityRepository;
+        this.dtoConverterHelper=dtoConverterHelper;
     }
 
     // Creating post
@@ -35,7 +40,7 @@ public class PostService {
             Optional<UserEntity> userOpt = userRepository.findById(userId);
             if (userOpt.isPresent()) {
                 UserEntity user = userOpt.get();
-                PostEntity post = DtoToObjMapping(postData);
+                PostEntity post = dtoConverterHelper.DtoToObjMapping(postData);
                 post.setUsersId(userId);
                 post.setUniversityId(user.getUniversityId());
                 Optional<UniversityEntity> universityEntityOptional = universityRepository.findById(user.getUniversityId());
@@ -123,35 +128,15 @@ public List<PostDTO> getAllPostsForUniversity(ObjectId universityId, int page, i
             .map(university -> university.getUniversityRelatedPosts().stream()
                     .skip((long) (page - 1) * pageSize)  // Skip posts for previous pages
                     .limit(pageSize)                    // Limit the results to the page size
-                    .map(this::PostToDto)
+                    .map(dtoConverterHelper::PostObjToDTOMapping)
                     .toList())
             .orElse(Collections.emptyList());
 }
 
 
-    // Helper method to map DTO to Entity
-    private PostEntity DtoToObjMapping(PostDTO postDTO) {
-        PostEntity post = new PostEntity();
-        post.setUserName(postDTO.getUserName());
-        post.setUsersId(postDTO.getUserId());
-         post.setTitle(postDTO.getTitle());
-        post.setContent(postDTO.getContent());
-        post.setImageUri(postDTO.getImageUri());
-        post.setCreatedAt(new Date());
-        return post;
-    }
 
-    private PostDTO PostToDto(PostEntity post){
-        PostDTO dto = new PostDTO();
-        dto.setId(post.getId());
-        dto.setUserId(post.getUsersId());
-        dto.setImageUri(post.getImageUri());
-        dto.setTitle(post.getTitle());
-        dto.setContent(post.getContent());
-        dto.setUserName(post.getUserName());
-        dto.setCreatedAt(post.getCreatedAt());
-        return dto;
-    }
+
+
 
 
 

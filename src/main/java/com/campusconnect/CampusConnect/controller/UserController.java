@@ -1,12 +1,15 @@
 package com.campusconnect.CampusConnect.controller;
 
 import com.campusconnect.CampusConnect.dto.PostDTO;
+import com.campusconnect.CampusConnect.dto.UserDTO;
 import com.campusconnect.CampusConnect.service.UserService;
+import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -31,18 +34,24 @@ public class UserController {
             return new ResponseEntity<>("User not found",HttpStatus.NOT_FOUND);
         }
     }
-//
+
+    @PostMapping("/findByUserName/{universityId}/{userName}")
+    public ResponseEntity<?> findByUserName(@Valid @PathVariable ObjectId universityId , @PathVariable String userName){
+        try {
+            String userNameToPass = userName.trim();
+            List<UserDTO> userDTOS  = userService.findByUserName(universityId , userNameToPass);
+            if(userDTOS != null){
+                return new ResponseEntity<>( userDTOS , HttpStatus.FOUND);
+            }
+            else {
+                return new ResponseEntity<>(Collections.emptyList() ,HttpStatus.NOT_FOUND);
+            }
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e.getMessage() , HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }
 
-// Functions to implement
-// 1. Get all posts of the user
-// 2. Users university post list
-// 3. University lost and found (based on the year of the user).
-// 4. search for company
-// 5.
-// 6.
-// 7.
-// 8.
-// 9.
-// 10.

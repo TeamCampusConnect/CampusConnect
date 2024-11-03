@@ -1,4 +1,5 @@
 package com.campusconnect.CampusConnect.service;
+import com.campusconnect.CampusConnect.DtoConverstion.DtoConverterHelper;
 import com.campusconnect.CampusConnect.dto.CompanyDTO;
 import com.campusconnect.CampusConnect.dto.UniversityNameListDTO;
 import com.campusconnect.CampusConnect.dto.UserDTO;
@@ -22,10 +23,14 @@ public class UniversityService  {
     private final CompanyRepository companyRepository;
 
     private final UserRepository userRepository;
-    UniversityService(UniversityRepository universityRepository,CompanyRepository companyRepository,UserRepository userRepository){
+
+    private final DtoConverterHelper dtoConverterHelper;
+
+    UniversityService(UniversityRepository universityRepository,CompanyRepository companyRepository,UserRepository userRepository,DtoConverterHelper dtoConverterHelper ){
         this.universityRepository = universityRepository;
         this.companyRepository=companyRepository;
         this.userRepository=userRepository;
+        this.dtoConverterHelper=dtoConverterHelper;
     }
 
     public List<UniversityNameListDTO> getAllUniversities() {
@@ -35,7 +40,7 @@ public class UniversityService  {
     public List<UserDTO> findAllStudents(ObjectId universityId) {
         return universityRepository.findById(universityId)
                 .map(university -> university.getAllStudents().stream()
-                        .map(this::mapToUserDTO)
+                        .map(dtoConverterHelper::entityToUserDTO)
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }
@@ -46,7 +51,7 @@ public class UniversityService  {
         UniversityEntity university = universityRepository.findById(universityId)
                 .orElseThrow(() -> new EntityNotFoundException("University not found with id: " + universityId));
 
-        CompanyEntity companyEntity = mapToCompanyEntity(companyDetails);
+        CompanyEntity companyEntity = dtoConverterHelper.mapToCompanyEntity(companyDetails);
 
         CompanyEntity savedEntity = companyRepository.save(companyEntity);
         System.out.println("Saved company entity with ID: " + savedEntity.getId());
@@ -65,7 +70,7 @@ public class UniversityService  {
         return universityRepository.findById(universityId)
                 .map(universityEntity -> universityEntity.getCompanyList()
                         .stream()
-                        .map(this::mapToCompanyDTO)
+                        .map(dtoConverterHelper::mapToCompanyDTO)
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }
@@ -99,35 +104,12 @@ public class UniversityService  {
              .findFirst();
      CompanyEntity companyEntity = companyEntityOptional.orElseThrow(()-> new EntityNotFoundException("Company not found."));
      List<UserEntity> selectedStudents = companyEntity.getSelectedStudents();
-     return selectedStudents.stream().map(this::mapToUserDTO).collect(Collectors.toList());
+     return selectedStudents.stream().map(dtoConverterHelper::entityToUserDTO).collect(Collectors.toList());
      }
 
 
-    private UserDTO mapToUserDTO(UserEntity userEntity) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUniversityId(userEntity.getUniversityId());
-        userDTO.setId(userEntity.getId());
-        userDTO.setEmail(userEntity.getEmail());
-        userDTO.setUserName(userEntity.getUserName());
-        userDTO.setBranch(userEntity.getBranch());
-        userDTO.setUniversityReg(userDTO.getUniversityReg());
-        userDTO.setCurrentCompany(userEntity.getCurrentCompany());
-        userDTO.setNameOfUniversity(userEntity.getNameOfUniversity());
-        return userDTO;
-    }
 
-    private CompanyEntity mapToCompanyEntity(CompanyDTO companyDetails){
-        CompanyEntity companyEntity1 = new CompanyEntity();
-        companyEntity1.setCompanyName(companyDetails.getCompanyName());
-        return companyEntity1;
-    }
 
-    private CompanyDTO mapToCompanyDTO(CompanyEntity companyDetails){
-        CompanyDTO companyDTO = new CompanyDTO();
-        companyDTO.setId(companyDetails.getId());
-        companyDTO.setCompanyName(companyDetails.getCompanyName());
-        return companyDTO;
-    }
 
 
 }

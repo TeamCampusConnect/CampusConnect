@@ -1,7 +1,11 @@
 package com.campusconnect.CampusConnect.service;
+import com.campusconnect.CampusConnect.DtoConverstion.DtoConverterHelper;
 import com.campusconnect.CampusConnect.dto.PostDTO;
+import com.campusconnect.CampusConnect.dto.UserDTO;
 import com.campusconnect.CampusConnect.entity.PostEntity;
+import com.campusconnect.CampusConnect.entity.UniversityEntity;
 import com.campusconnect.CampusConnect.entity.UserEntity;
+import com.campusconnect.CampusConnect.repositories.UniversityRepository;
 import com.campusconnect.CampusConnect.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -16,9 +20,14 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UniversityRepository universityRepository;
 
-    public UserService(UserRepository userRepository){
+    private final DtoConverterHelper dtoConverterHelper;
+
+    public UserService(UserRepository userRepository,UniversityRepository universityRepository,DtoConverterHelper dtoConverterHelper){
         this.userRepository = userRepository;
+        this.universityRepository = universityRepository;
+        this.dtoConverterHelper=dtoConverterHelper;
     }
 
     public List<PostDTO> getAllPosts(ObjectId userId) {
@@ -26,20 +35,22 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         return user.getPosts().stream()
-                .map(this::PostObjToDTOMapping)
+                .map(dtoConverterHelper::PostObjToDTOMapping)
                 .collect(Collectors.toList());
     }
 
-    private PostDTO PostObjToDTOMapping(PostEntity postData) {
-        return new PostDTO(
-                postData.getId(),
-                postData.getUsersId(),
-                postData.getUserName(),
-                postData.getTitle(),
-                postData.getContent(),
-                postData.getImageUri(),
-                postData.getCreatedAt()
-                );
+// TODO : make the opposit converter function convert form Entity to DTO
+    public List<UserDTO> findByUserName(ObjectId universityId , String userName){
+        Optional<UniversityEntity> university = universityRepository.findById(universityId);
+        return university.map(universityEntity -> universityEntity
+                .getAllStudents()
+                .stream()
+                .filter(student -> (student.getUserName().equals(userName)))
+                .map(student -> new UserDTO())
+                .collect(Collectors.toList())).orElseGet(List::of);
     }
+
+
+
 
 }

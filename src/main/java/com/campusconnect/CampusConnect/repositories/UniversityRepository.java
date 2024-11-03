@@ -1,6 +1,7 @@
 package com.campusconnect.CampusConnect.repositories;
 
 import com.campusconnect.CampusConnect.dto.UniversityNameListDTO;
+import com.campusconnect.CampusConnect.dto.UserDTO;
 import com.campusconnect.CampusConnect.entity.UniversityEntity;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -16,6 +17,5 @@ public interface UniversityRepository extends MongoRepository<UniversityEntity, 
 
     @Query(value = "{}", fields = "{ '_id' : 1 , 'nameOfUniversity' : 1 }")
     List<UniversityNameListDTO> findAllNamesOfUniversity();
-
 
 }

@@ -13,14 +13,12 @@ import org.springframework.data.annotation.Id;
 @Setter
 public class LoginDTO {
 
-
     @NotNull(message = "Email cannot be empty")
     @Email(message = "Invalid email format")
     private String email;
 
     @NotNull(message = "Password cannot be null")
     @Size(min = 6, message = "Password must be at least 6 characters")
-    @JsonIgnore
     private String password;
 
 

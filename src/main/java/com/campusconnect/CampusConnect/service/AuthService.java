@@ -1,5 +1,6 @@
 package com.campusconnect.CampusConnect.service;
 
+import com.campusconnect.CampusConnect.DtoConverstion.DtoConverterHelper;
 import com.campusconnect.CampusConnect.dto.LoginDTO;
 import com.campusconnect.CampusConnect.dto.UniversityDTO;
 import com.campusconnect.CampusConnect.dto.UserDTO;
@@ -20,16 +21,19 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final UniversityRepository universityRepository;
+    private final DtoConverterHelper dtoConverterHelper;
 
-    AuthService(UserRepository userRepository, UniversityRepository universityRepository) {
+
+    AuthService(UserRepository userRepository, UniversityRepository universityRepository,DtoConverterHelper dtoConverterHelper) {
         this.userRepository = userRepository;
         this.universityRepository = universityRepository;
+        this.dtoConverterHelper=dtoConverterHelper;
     }
 
     @Transactional
     public void userSignUp(@Valid UserDTO userData) {
         // Map UserDTO to UserEntity
-        UserEntity userEntity = mapToEntity(userData);
+        UserEntity userEntity = dtoConverterHelper.userDtoToEntity(userData);
 
          // Fetch the university by the provided ID
         Optional<UniversityEntity> universityOptional = universityRepository.findById(userData.getUniversityId());
@@ -79,35 +83,9 @@ public class AuthService {
 
     @Transactional
     public void universitySignUp(@Valid UniversityDTO universityData) {
-        UniversityEntity universityEntity = mapToEntity(universityData);
+        UniversityEntity universityEntity = dtoConverterHelper.universityDtoToEntity(universityData);
         universityRepository.save(universityEntity);
     }
 
-    private UserEntity mapToEntity(UserDTO dto) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setEmail(dto.getEmail());
-        userEntity.setUniversityId(dto.getUniversityId());
-        userEntity.setPassword(dto.getPassword());
-        userEntity.setUserName(dto.getUserName());
-        userEntity.setNameOfUniversity(dto.getNameOfUniversity());
-        userEntity.setUniversityReg(dto.getUniversityReg());
-        userEntity.setCourse(dto.getCourse());
-        userEntity.setBranch(dto.getBranch());
-        userEntity.setCurrentCompany(dto.getCurrentCompany());
-        userEntity.setPlacementStatement(dto.getPlacementStatement());
-        return userEntity;
-    }
-
-    private UniversityEntity mapToEntity(UniversityDTO dto) {
-        UniversityEntity universityEntity = new UniversityEntity();
-        universityEntity.setEmail(dto.getEmail());
-        universityEntity.setPassword(dto.getPassword());
-        universityEntity.setNameOfUniversity(dto.getNameOfUniversity());
-        universityEntity.setOfficerHead(dto.getOfficerHead());
-        universityEntity.setEstablishedIn(dto.getEstablishedIn());
-        universityEntity.setNoOfCompanyVisit(dto.getNoOfCompanyVisit());
-        universityEntity.setNirfRanking(dto.getNirfRanking());
-        universityEntity.setLocationOfUniversity(dto.getLocationOfUniversity());
-        return universityEntity;
-    }
 }
+
