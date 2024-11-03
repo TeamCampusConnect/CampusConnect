@@ -8,9 +8,12 @@ import com.campusconnect.CampusConnect.entity.CompanyEntity;
 import com.campusconnect.CampusConnect.entity.PostEntity;
 import com.campusconnect.CampusConnect.entity.UniversityEntity;
 import com.campusconnect.CampusConnect.entity.UserEntity;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+
+@Component
 public class DtoConverterHelper {
 
 //    UserDto to user entity  converter
@@ -73,7 +76,6 @@ public UserDTO entityToUserDTO(UserEntity userEntity) {
     }
 
     //      post dto to post entity converter
-
     public PostEntity DtoToObjMapping(PostDTO postDTO) {
         PostEntity post = new PostEntity();
         post.setUserName(postDTO.getUserName());
