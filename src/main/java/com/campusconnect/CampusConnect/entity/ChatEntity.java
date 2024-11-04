@@ -12,7 +12,6 @@ import java.util.List;
 public class ChatEntity {
 
     @Id
-    @DBRef
     private ObjectId id;
 
     @DBRef
