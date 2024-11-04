@@ -1,10 +1,9 @@
 package com.campusconnect.CampusConnect.repositories;
 
-import com.campusconnect.CampusConnect.entity.CompanyEntity;
+import com.campusconnect.CampusConnect.entity.ChatEntity;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RestController;
 
 @Repository
-public interface CompanyRepository extends MongoRepository<CompanyEntity, ObjectId> {}
+public interface ChatRepository extends MongoRepository<ChatEntity, ObjectId> { }

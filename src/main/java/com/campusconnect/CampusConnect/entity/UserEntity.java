@@ -12,7 +12,9 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Document(collection = "Users")
@@ -54,6 +56,10 @@ public class UserEntity {
 
     @DBRef
     private List<PostEntity> posts = new ArrayList<>();
+
+
+    @DBRef
+    private Map<UserEntity,ChatEntity> allChats = new LinkedHashMap<>();
 
     @Override
     public String toString() {
