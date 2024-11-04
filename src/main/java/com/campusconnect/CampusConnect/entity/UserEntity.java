@@ -59,7 +59,7 @@ public class UserEntity {
 
 
     @DBRef
-    private Map<UserEntity,ChatEntity> allChats = new LinkedHashMap<>();
+    private Map<ObjectId,ChatEntity> allChats = new LinkedHashMap<>();
 
     @Override
     public String toString() {

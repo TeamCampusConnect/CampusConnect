@@ -39,7 +39,6 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-// TODO : make the opposit converter function convert form Entity to DTO
     public List<UserDTO> findByUserName(ObjectId universityId , String userName){
         Optional<UniversityEntity> university = universityRepository.findById(universityId);
         return university.map(universityEntity -> universityEntity
