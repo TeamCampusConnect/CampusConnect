@@ -5,5 +5,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface ChatRepository extends MongoRepository<ChatEntity, ObjectId> { }
+public interface ChatRepository extends MongoRepository<ChatEntity, ObjectId> {
+    Optional<ChatEntity> findBySenderAndReceiver(ObjectId sender, ObjectId receiver);
+}

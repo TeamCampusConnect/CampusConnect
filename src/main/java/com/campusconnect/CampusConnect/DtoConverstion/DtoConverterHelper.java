@@ -1,13 +1,7 @@
 package com.campusconnect.CampusConnect.DtoConverstion;
 
-import com.campusconnect.CampusConnect.dto.CompanyDTO;
-import com.campusconnect.CampusConnect.dto.PostDTO;
-import com.campusconnect.CampusConnect.dto.UniversityDTO;
-import com.campusconnect.CampusConnect.dto.UserDTO;
-import com.campusconnect.CampusConnect.entity.CompanyEntity;
-import com.campusconnect.CampusConnect.entity.PostEntity;
-import com.campusconnect.CampusConnect.entity.UniversityEntity;
-import com.campusconnect.CampusConnect.entity.UserEntity;
+import com.campusconnect.CampusConnect.dto.*;
+import com.campusconnect.CampusConnect.entity.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -99,6 +93,17 @@ public UserDTO entityToUserDTO(UserEntity userEntity) {
         companyDTO.setId(companyDetails.getId());
         companyDTO.setCompanyName(companyDetails.getCompanyName());
         return companyDTO;
+    }
+
+    public ChatDTO chatEntityToDto(ChatEntity chatEntity){
+        ChatDTO chatDTO = new ChatDTO();
+        chatDTO.setId(chatEntity.getId());
+        chatDTO.setSender(chatEntity.getSender());
+        chatDTO.setReceiver(chatDTO.getReceiver());
+        return chatDTO;
+    }
+    public ChatEntity chatDtoToEntity(ChatDTO chatDTO){
+        return new ChatEntity();
     }
 
 

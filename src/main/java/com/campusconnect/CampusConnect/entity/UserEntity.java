@@ -11,10 +11,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Document(collection = "Users")
@@ -59,7 +56,7 @@ public class UserEntity {
 
 
     @DBRef
-    private Map<ObjectId,ChatEntity> allChats = new LinkedHashMap<>();
+    private Map<ObjectId,ChatEntity> allChats = new TreeMap<>();
 
     @Override
     public String toString() {
@@ -76,6 +73,7 @@ public class UserEntity {
                 ", currentCompany='" + currentCompany + '\'' +
                 ", placementStatement='" + placementStatement + '\'' +
                 ", posts=" + posts +
+                ", allChats=" + allChats +
                 '}';
     }
 }

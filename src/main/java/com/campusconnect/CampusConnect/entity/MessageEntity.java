@@ -1,4 +1,6 @@
 package com.campusconnect.CampusConnect.entity;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -7,21 +9,17 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
 
-@Document(collection = "messages")
+@Document(collection = "message")
+@Data
 public class MessageEntity {
     @Id
     private ObjectId id;
-
-    @Field("sender")
+    @NotNull
     private ObjectId sender;
-
-    @Field("receiver")
+    @NotNull
     private ObjectId receiver;
-
-    @Field("content")
+    @NotNull
     private String content;
-
-    @Field("timestamp")
     private LocalDateTime timestamp;
 
 }
